@@ -2,37 +2,20 @@
     'use strict';
 
     // --- Configuration Options ---
-    // Change this to 'Movie,Series' if you want to include both movies and TV shows
+    // Change this to 'Movie,Series' to include both movies and TV shows.
     // Set to 'Movie' for movies only, or 'Series' for TV shows only.
-    const ITEM_TYPES_TO_INCLUDE = 'Movie';
+    const ITEM_TYPES_TO_INCLUDE = 'Movie,Series';
     // --- End Configuration Options ---
 
     const getJellyfinServerAddress = () => window.location.origin;
 
-    // Function to inject Material Design Icons stylesheet (Standard)
-    const injectMaterialIcons = () => {
-        if (!document.getElementById('material-icons-stylesheet')) {
-            const link = document.createElement('link');
-            link.id = 'material-icons-stylesheet';
-            link.rel = 'stylesheet';
-            link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-            document.head.appendChild(link);
-            console.log("Jellyfin Random Button: Material Design Icons stylesheet (Standard) injected.");
-        }
-    };
-
     // Function to inject custom CSS rules
     const injectCustomCss = () => {
-        if (!document.getElementById('random-movie-button-custom-css')) {
+        if (!document.getElementById('random-item-button-custom-css')) {
             const style = document.createElement('style');
-            style.id = 'random-movie-button-custom-css';
+            style.id = 'random-item-button-custom-css';
             style.innerHTML = `
-                .random-movie-button .md-icon {
-                    font-family: 'Material Icons' !important;
-                    font-style: normal !important;
-                    font-size: 24px !important;
-                }
-                button#randomMovieButton {
+                button#randomItemButton {
                     padding: 0px !important;
                     margin: 0px 5px 0px 10px !important;
                     display: inline-flex;
@@ -45,12 +28,12 @@
         }
     };
 
-    const getRandomMovie = async () => {
+    const getRandomItem = async () => {
         const userId = ApiClient.getCurrentUserId();
 
         if (!userId) {
             console.error("Jellyfin Random Button: User ID not found. Are you logged in?");
-            alert("Please log in to use the random movie feature.");
+            alert("Please log in to use the random item feature.");
             return null;
         }
 
@@ -89,53 +72,53 @@
         }
     };
 
-    const navigateToMovie = (movie) => {
-        if (movie && movie.Id) {
+    const navigateToItem = (item) => {
+        if (item && item.Id) {
             const serverAddress = getJellyfinServerAddress();
             const serverId = ApiClient.serverId();
 
-            const movieUrl = `${serverAddress}/web/index.html#!/details?id=${movie.Id}${serverId ? `&serverId=${serverId}` : ''}`;
-            console.log("Jellyfin Random Button: Navigating to:", movieUrl);
-            window.location.href = movieUrl;
+            const itemUrl = `${serverAddress}/web/index.html#!/details?id=${item.Id}${serverId ? `&serverId=${serverId}` : ''}`;
+            console.log("Jellyfin Random Button: Navigating to:", itemUrl);
+            window.location.href = itemUrl;
         } else {
-            console.error("Jellyfin Random Button: Invalid item object or ID:", movie);
+            console.error("Jellyfin Random Button: Invalid item object or ID:", item);
             alert("Could not navigate to item details. Item ID is missing.");
         }
     };
 
     const addButton = () => {
         // Find existing container or create a new one
-        let buttonContainer = document.getElementById('randomMovieButtonContainer');
+        let buttonContainer = document.getElementById('randomItemButtonContainer');
         if (!buttonContainer) {
             buttonContainer = document.createElement('div');
-            buttonContainer.id = 'randomMovieButtonContainer';
+            buttonContainer.id = 'randomItemButtonContainer';
         }
 
         // Find existing button or create a new one
-        let randomButton = document.getElementById('randomMovieButton');
+        let randomButton = document.getElementById('randomItemButton');
         if (!randomButton) {
             randomButton = document.createElement('button');
-            randomButton.id = 'randomMovieButton';
-            randomButton.className = 'random-movie-button emby-button button-flat button-flat-hover';
-            randomButton.title = 'Play a random item from your library'; // Updated title for clarity
-            randomButton.innerHTML = `<i class="md-icon random-icon">casino</i>`;
+            randomButton.id = 'randomItemButton';
+            randomButton.className = 'random-item-button emby-button button-flat button-flat-hover';
+            randomButton.title = 'Play a random item from your library';
+            randomButton.innerHTML = `<i class="material-icons">casino</i>`;
 
             // Add event listener for the button click
             randomButton.addEventListener('click', async () => {
                 randomButton.disabled = true;
-                randomButton.innerHTML = '<i class="md-icon random-icon">hourglass_empty</i>'; // Loading state icon
+                randomButton.innerHTML = '<i class="material-icons">hourglass_empty</i>'; // Loading state icon
 
                 try {
-                    const item = await getRandomMovie();
+                    const item = await getRandomItem();
                     if (item) {
-                        navigateToMovie(item);
+                        navigateToItem(item);
                     }
                 } catch (error) {
                     console.error("Jellyfin Random Button: Failed to get random item:", error);
                     alert("Failed to find a random item. Check console for details.");
                 } finally {
                     randomButton.disabled = false;
-                    randomButton.innerHTML = `<i class="md-icon random-icon">casino</i>`;
+                    randomButton.innerHTML = `<i class="material-icons">casino</i>`;
                 }
             });
 
@@ -163,7 +146,6 @@
     const waitForApiClient = () => {
         if (typeof ApiClient !== 'undefined' && typeof ApiClient.getCurrentUserId === 'function' && typeof ApiClient.ajax === 'function') {
             console.log("Jellyfin Random Button: ApiClient is available. Starting UI observation.");
-            injectMaterialIcons();
             injectCustomCss();
             const observer = new MutationObserver((mutations, obs) => {
                 const headerRight = document.querySelector('.headerRight');
@@ -175,15 +157,18 @@
                 }
             });
 
-            observer.observe(document.body, { childList: true, subtree: true });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
 
             // Also try to add the button immediately if UI is already ready on page load
             const headerRight = document.querySelector('.headerRight');
             const searchInputContainer = document.querySelector('.searchInput');
             if (headerRight || searchInputContainer) {
-                 addButton();
-                 observer.disconnect();
-                 console.log("Jellyfin Random Button: Button added immediately (UI already ready).");
+                addButton();
+                observer.disconnect();
+                console.log("Jellyfin Random Button: Button added immediately (UI already ready).");
             }
 
         } else {
