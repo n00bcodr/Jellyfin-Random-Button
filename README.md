@@ -2,7 +2,7 @@
 
 Adds a "shuffle" button to the Jellyfin header that lets you jump to a random movie or TV show from your library. It's a great way to discover something to watch when you can't decide!
 
-![Screenshot of the random button in the Jellyfin header](https://raw.githubusercontent.com/n00bcodr/Jellyfin-Random-Button/main/screenshot.png)
+![image](https://github.com/user-attachments/assets/ce373f06-e88e-4033-a05f-2625c962c7c2)
 
 ---
 
@@ -22,12 +22,11 @@ You can customize which items the random button will pick from.
 ```javascript
 const ITEM_TYPES_TO_INCLUDE = 'Movie';
 ```
-
 <br>
 
-### 🔧 Installation
+## 🔧 Installation
 
-1. **Locate your Jellyfin web root directory.**
+1. **Locate your Jellyfin web root directory.** <br>
    _You can find the exact path in your Jellyfin server logs._
 
 2. **Open the `index.html` file for editing:**
@@ -40,11 +39,13 @@ const ITEM_TYPES_TO_INCLUDE = 'Movie';
     <script defer src="randombutton.js"></script>
     ```
 
-4. **Download the script directly into your web root using **``**:**
+4. **Download the script directly into your web root using**
 
    ```bash
    curl -o /usr/share/jellyfin/web/randombutton.js https://raw.githubusercontent.com/n00bcodr/jellyfin-random-button/main/randombutton.js
    ```
+
+   Or copy the contents of the script to a newly created randombutton.js in your webroot
 
 5. **Clear your browser cache** and **reload the Jellyfin web page**.
 
@@ -60,7 +61,7 @@ const ITEM_TYPES_TO_INCLUDE = 'Movie';
 
 ## 🧪 Tested On
 
-- Jellyfin 10.9.x Web UI
+- Jellyfin 10.10.7
 
 
 ## 📜 License
