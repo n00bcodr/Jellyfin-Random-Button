@@ -15,12 +15,25 @@
             const style = document.createElement('style');
             style.id = 'random-item-button-custom-css';
             style.innerHTML = `
+                @keyframes dice {
+                    0% { transform: rotate(0deg); }
+                    10% { transform: rotate(-15deg); }
+                    20% { transform: rotate(15deg); }
+                    30% { transform: rotate(-15deg); }
+                    40% { transform: rotate(15deg); }
+                    50% { transform: rotate(-15deg); }
+                    60% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
                 button#randomItemButton {
                     padding: 0px !important;
                     margin: 0px 5px 0px 10px !important;
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
+                }
+                button#randomItemButton:hover .material-icons {
+                    animation: dice 1.5s;
                 }
             `;
             document.head.appendChild(style);
