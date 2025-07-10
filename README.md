@@ -26,6 +26,8 @@ const ITEM_TYPES_TO_INCLUDE = 'Movie';
 
 ## 🔧 Installation
 
+### Manual
+
 1. **Locate your Jellyfin web root directory.** <br>
    _You can find the exact path in your Jellyfin server logs._
 
@@ -46,6 +48,18 @@ const ITEM_TYPES_TO_INCLUDE = 'Movie';
    ```
 
    Or copy the contents of the script to a newly created randombutton.js in your webroot
+
+5. **Clear your browser cache** and **reload the Jellyfin web page**.
+
+### Plugin
+
+1. **Install the [Custom JavaScript plugin](https://github.com/johnpc/jellyfin-plugin-custom-javascript)**
+
+2. **Navigate to Dashboard -> Plugins -> Custom JavaScript**
+
+3. **Paste the contents of `randombutton.js` into the textarea**
+
+4. **Restart Jellyfin**
 
 5. **Clear your browser cache** and **reload the Jellyfin web page**.
 
