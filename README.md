@@ -1,3 +1,14 @@
+# **Functionality has been moved to [Jellyfin-Enhanced](https://github.com/n00bcodr/Jellyfin-Enhanced)**
+
+```
+                  _     ____    ____  _   _  ___ __     __ _____  ____
+                 / \   |  _ \  / ___|| | | ||_ _|\ \   / /| ____||  _ \
+  _____  _____  / _ \  | |_) || |    | |_| | | |  \ \ / / |  _|  | | | | _____  _____
+ |_____||_____|/ ___ \ |  _ < | |___ |  _  | | |   \ V /  | |___ | |_| ||_____||_____|
+              /_/   \_\|_| \_\ \____||_| |_||___|   \_/   |_____||____/
+
+```
+
 # Jellyfin Random Button
 
 Adds a "shuffle" button to the Jellyfin header that lets you jump to a random movie or TV show from your library. It's a great way to discover something to watch when you can't decide!
